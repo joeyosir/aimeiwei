@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科学减脂作息课程表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .day-item {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .day-header {
+            padding: 18px 20px;
+            background: #fafafa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        .day-header:hover {
+            background: #f5f5f5;
+        }
+        .day-header.active {
+            background: #f0f4ff;
+        }
+        .day-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .day-subtitle {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        .icon::after {
+            content: "▼";
+            font-size: 10px;
+            color: #888;
+        }
+        .day-header.active .icon {
+            transform: rotate(180deg);
+        }
+        .day-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .day-content.open {
+            max-height: 1000px;
+        }
+        .schedule-table {
+            padding: 15px 20px;
+        }
+        .time-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .time-row:last-child {
+            border-bottom: none;
+        }
+        .time-col {
+            width: 35%;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        .content-col {
+            width: 65%;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .section {
+            padding: 15px 20px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "🧩";
+            margin-right: 8px;
+        }
+        .rules-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .rules-list li {
+            padding: 6px 0;
+            font-size: 14px;
+            color: #555;
+            padding-left: 28px;
+            position: relative;
+        }
+        .rules-list li::before {
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+        .rules-list li.no::before {
+            content: "❌";
+        }
+        .rules-list li.yes::before {
+            content: "✅";
+        }
+        .week-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .week-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+        }
+        .week-table td:first-child {
+            font-weight: 500;
+            color: #666;
+            width: 40%;
+        }
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💪 坚决向尹总学习</h1>
+            <p>科学减脂作息课程表 · 坚持一个月 ≈ -8~10斤</p>
+        </div>
+
+        <!-- 周一 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">🗓 周一</div>
+                    <div class="day-subtitle">入门日 · 基础节奏</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="schedule-table">
+                    <div class="time-row">
+                        <div class="time-col">7:00-7:30</div>
+                        <div class="content-col">起床 + 早餐（鸡蛋+燕麦+牛奶）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">7:30-8:15</div>
+                        <div class="content-col">晨间准备 / 整理</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">8:15-8:30</div>
+                        <div class="content-col">放松</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">8:30-12:00</div>
+                        <div class="content-col">工作</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">12:00-13:00</div>
+                        <div class="content-col">午餐（鸡胸肉+米饭半碗+青菜）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">13:00-16:30</div>
+                        <div class="content-col">工作</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">16:30-17:00</div>
+                        <div class="content-col">下班回家</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">16:20</div>
+                        <div class="content-col">吃一根香蕉（运动前1小时）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">17:20-18:10</div>
+                        <div class="content-col">🚴 骑车（中等强度）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">18:30-19:00</div>
+                        <div class="content-col">晚餐（高蛋白+少碳水）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">19:00-20:00</div>
+                        <div class="content-col">散步/放松</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">21:30-23:00</div>
+                        <div class="content-col">放松（不吃东西）+ 睡觉</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 周二 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">🗓 周二</div>
+                    <div class="day-subtitle">加力量日</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="schedule-table">
+                    <div class="time-row">
+                        <div class="time-col">7:00-7:30</div>
+                        <div class="content-col">起床 + 早餐（全麦+鸡蛋）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">7:30-8:15</div>
+                        <div class="content-col">晨间准备 / 整理</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">8:30-16:30</div>
+                        <div class="content-col">工作</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">16:20</div>
+                        <div class="content-col">吃一根香蕉（运动前1小时）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">17:20-17:50</div>
+                        <div class="content-col">🚴 骑车（30分钟）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">17:50-18:10</div>
+                        <div class="content-col">💪 力量训练（俯卧撑+深蹲+平板）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">18:30</div>
+                        <div class="content-col">晚餐（鸡肉+蔬菜）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">晚上</div>
+                        <div class="content-col">放松</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 周三 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">🗓 周三</div>
+                    <div class="day-subtitle">燃脂强化</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="schedule-table">
+                    <div class="time-row">
+                        <div class="time-col">7:00-7:30</div>
+                        <div class="content-col">早餐（燕麦+酸奶）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">白天</div>
+                        <div class="content-col">工作</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">16:20</div>
+                        <div class="content-col">吃一根香蕉（运动前1小时）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">17:20-18:10</div>
+                        <div class="content-col">🚴 间歇骑行（快慢交替）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">18:30</div>
+                        <div class="content-col">晚餐（虾+西兰花）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">晚上</div>
+                        <div class="content-col">放松</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 周四 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">🗓 周四</div>
+                    <div class="day-subtitle">恢复日</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="schedule-table">
+                    <div class="time-row">
+                        <div class="time-col">7:00-7:30</div>
+                        <div class="content-col">早餐</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">白天</div>
+                        <div class="content-col">工作</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">16:20</div>
+                        <div class="content-col">吃一根香蕉（运动前1小时）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">17:20-17:50</div>
+                        <div class="content-col">🚴 轻松骑行</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">18:30</div>
+                        <div class="content-col">晚餐（沙拉+鸡胸肉）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">晚上</div>
+                        <div class="content-col">早睡</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 周五 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">🗓 周五</div>
+                    <div class="day-subtitle">最长燃脂</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="schedule-table">
+                    <div class="time-row">
+                        <div class="time-col">7:00-7:30</div>
+                        <div class="content-col">早餐</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">白天</div>
+                        <div class="content-col">工作</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">16:20</div>
+                        <div class="content-col">吃一根香蕉（运动前1小时）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">17:20-18:20</div>
+                        <div class="content-col">🚴 长时间骑行（60分钟）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">18:30</div>
+                        <div class="content-col">晚餐（清淡+蛋白）</div>
+                    </div>
+                    <div class="time-row">
+                        <div class="time-col">晚上</div>
+                        <div class="content-col">放松</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 额外规则 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">🧠 额外课程规则</div>
+                    <div class="day-subtitle">很重要，要像课堂纪律一样记住</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="section">
+                    <ul class="rules-list">
+                        <li class="no">晚上不吃零食</li>
+                        <li class="no">不喝奶茶</li>
+                        <li class="yes">每天喝水 ≥ 2L</li>
+                        <li class="yes">鱼油：晚餐后吃</li>
+                        <li class="yes">睡眠 ≥ 7小时</li>
+                        <li class="yes">骑车前1小时吃根香蕉，亲测效果更好</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 减脂节奏 -->
+        <div class="day-item">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <div class="day-title">📊 减脂节奏表</div>
+                    <div class="day-subtitle">循序渐进，按周计划</div>
+                </div>
+                <div class="icon"></div>
+            </div>
+            <div class="day-content">
+                <div class="section">
+                    <table class="week-table">
+                        <tr>
+                            <td>第1周</td>
+                            <td>适应（掉1~2斤）</td>
+                        </tr>
+                        <tr>
+                            <td>第2周</td>
+                            <td>稳定下降</td>
+                        </tr>
+                        <tr>
+                            <td>第3周</td>
+                            <td>体脂明显下降</td>
+                        </tr>
+                        <tr>
+                            <td>第4周</td>
+                            <td>视觉变化明显</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结语 -->
+        <div class="section">
+            <div class="conclusion">
+                <strong>一句话总结</strong><br>
+                坚持做到 → 一个月 ≈ <strong>-8~10斤</strong>
+            </div>
+        </div>
+
+        <div class="footer">
+            点击日期展开/收起 · 手机打开直接可以截图保存
+        </div>
+    </div>
+
+    <script>
+    function toggleDay(header) {
+        header.classList.toggle('active');
+        var content = header.nextElementSibling;
+        content.classList.toggle('open');
+    }
+    // 默认打开周一
+    document.addEventListener('DOMContentLoaded', function() {
+        var firstHeader = document.querySelector('.day-header');
+        toggleDay(firstHeader);
+    });
+    </script>
+</body>
+</html>
